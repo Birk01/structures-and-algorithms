@@ -60,6 +60,7 @@ POW_CALLS = 20_000    # вызовов binary_pow на один замер: ин
 
 
 def array_sum(a: list[int]) -> int:
+    """Сумма элементов массива. Ожидаемая сложность: O(N) по времени, O(1) по памяти."""
     s = 0            
     for x in a:      
         s += x     
@@ -69,7 +70,7 @@ def array_sum(a: list[int]) -> int:
 
 
 def array_max(a: list[int]) -> int:
-    """Максимум массива (массив непуст). Ожидаемая сложность:."""
+    """Максимум массива (массив непуст). Ожидаемая сложность: O(N) по времени, O(1) по памяти."""
     max = a[0]
     for x in a:
         if x > max:
@@ -79,24 +80,45 @@ def array_max(a: list[int]) -> int:
 
 
 def count_equal_pairs(a: list[int]) -> int:
-    """Число пар (i, j), i < j, таких что a[i] == a[j]. Ожидаемая сложность: ."""
-    b = 0
+#  Число пар (i, j), i < j, таких что a[i] == a[j]. 
+
+# Ожидаемая сложность: O(N^2) по времени, O(1) по памяти.
+    
+    count = 0
     n = len(a)
     for i in range(n):
-        for j in range(i+1, n):
-            if i==j:
-                b +=1
-    return b
+        for j in range(i + 1, n):  
+            if a[i] == a[j]:
+                count += 1
+    return count
     raise NotImplementedError
 
 
 def binary_pow(x: int, n: int, mod: int | None = None) -> int:
-    """Бинарное возведение в степень, n >= 0. Ожидаемая сложность: TODO.
+    """Бинарное возведение в степень, n >= 0. Ожидаемая сложность: O(log n).
 
     При заданном mod все умножения выполняются по модулю (результат x**n % mod).
     """
-    # TODO: реализовать через квадрирование; при mod применять % mod после
-    # каждого умножения
+    if mod is not None:
+        if mod == 1:
+            return 0
+        res = 1 % mod
+        base = x % mod
+        while n > 0:
+            if n % 2 == 1:
+                res = (res * base) % mod
+            base = (base * base) % mod
+            n //= 2
+        return res
+    else:
+        res = 1
+        base = x
+        while n > 0:
+            if n % 2 == 1:
+                res = res * base
+            base = base * base
+            n //= 2
+        return res
     raise NotImplementedError
 
 
@@ -286,7 +308,7 @@ def plot_results(results: dict[str, list[tuple[int, float]]], out_dir: Path) -> 
     ax.grid(True, which="both", linewidth=0.3)
     ax.legend()
     fig.tight_layout()
-    loglog_path = out_dir / "lab01_loglog.png"
+    loglog_path = out_dir / "lab01_loglog4.png"
     fig.savefig(loglog_path, dpi=150)
 
     points = results["binary_pow"]
@@ -297,7 +319,7 @@ def plot_results(results: dict[str, list[tuple[int, float]]], out_dir: Path) -> 
     ax2.set_title("Бинарное возведение в степень: t(log₂ n)")
     ax2.grid(True, linewidth=0.3)
     fig2.tight_layout()
-    pow_path = out_dir / "lab01_binary_pow.png"
+    pow_path = out_dir / "lab01_binary_pow4.png"
     fig2.savefig(pow_path, dpi=150)
 
     print(f"\nГрафики сохранены:\n  {loglog_path}\n  {pow_path}")
