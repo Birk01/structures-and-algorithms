@@ -60,20 +60,33 @@ POW_CALLS = 20_000    # вызовов binary_pow на один замер: ин
 
 
 def array_sum(a: list[int]) -> int:
-    """Сумма элементов массива. Ожидаемая сложность: TODO (обосновать в отчёте)."""
-    # TODO: реализовать циклом
+    s = 0            
+    for x in a:      
+        s += x     
+    return s         
+
     raise NotImplementedError
 
 
 def array_max(a: list[int]) -> int:
-    """Максимум массива (массив непуст). Ожидаемая сложность: TODO."""
-    # TODO: реализовать циклом
+    """Максимум массива (массив непуст). Ожидаемая сложность:."""
+    max = a[0]
+    for x in a:
+        if x > max:
+            max = x
+    return max
     raise NotImplementedError
 
 
 def count_equal_pairs(a: list[int]) -> int:
-    """Число пар (i, j), i < j, таких что a[i] == a[j]. Ожидаемая сложность: TODO."""
-    # TODO: реализовать двойным циклом
+    """Число пар (i, j), i < j, таких что a[i] == a[j]. Ожидаемая сложность: ."""
+    b = 0
+    n = len(a)
+    for i in range(n):
+        for j in range(i+1, n):
+            if i==j:
+                b +=1
+    return b
     raise NotImplementedError
 
 
